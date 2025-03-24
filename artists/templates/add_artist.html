@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Add New Artist{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Add a New Tattoo Artist</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Add Artist</button>
+  </form>
+  <a href="{% url 'artist_list' %}" class="btn btn-link mt-3">Back to Artist List</a>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Featured Tattoo Artists{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Featured Tattoo Artists</h1>
+
+  <!-- Search Form -->
+  <form method="get" class="form-inline mb-4">
+    <input type="text" name="location" class="form-control mr-2" placeholder="Search by location..." value="{{ request.GET.location }}">
+    <input type="text" name="style" class="form-control mr-2" placeholder="Search by tattoo style..." value="{{ request.GET.style }}">
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+
+  <div class="row">
+    {% for artist in artists %}
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          {% if artist.profile_image %}
+            <img src="{{ artist.profile_image.url }}" class="card-img-top" alt="{{ artist.name }}">
+          {% else %}
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ artist.name }}</h5>
+            <p class="card-text">{{ artist.bio|truncatewords:20 }}</p>
+            <p class="card-text"><small class="text-muted">📍 {{ artist.location }}</small></p>
+            {% if artist.instagram %}
+              <a href="{{ artist.instagram }}" target="_blank" class="btn btn-sm btn-outline-primary">Instagram</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <p class="lead">No artists found.</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
