@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto mt-10">
+    <h1 class="text-3xl font-bold mb-6 text-center">Find Tattoo Artists</h1>
+
+    <!-- Search Form -->
+    <form method="GET" action="/artists/" class="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+        <input type="text" name="city" placeholder="Search by City" value="{{ request.GET.city }}" class="border rounded px-4 py-2 w-60">
+        
+        <select name="style" class="border rounded px-4 py-2 w-60">
+            <option value="">All Styles</option>
+            <option value="traditional" {% if request.GET.style == "traditional" %}selected{% endif %}>Traditional</option>
+            <option value="fineline" {% if request.GET.style == "fineline" %}selected{% endif %}>Fineline</option>
+            <option value="realism_color" {% if request.GET.style == "realism_color" %}selected{% endif %}>Realism (Color)</option>
+            <option value="realism_blackgrey" {% if request.GET.style == "realism_blackgrey" %}selected{% endif %}>Realism (Black & Grey)</option>
+            <option value="newschool" {% if request.GET.style == "newschool" %}selected{% endif %}>New School</option>
+            <option value="blackwork" {% if request.GET.style == "blackwork" %}selected{% endif %}>Black Work</option>
+            <option value="coverup" {% if request.GET.style == "coverup" %}selected{% endif %}>Cover Up</option>
+            <option value="neotraditional" {% if request.GET.style == "neotraditional" %}selected{% endif %}>Neo-Traditional</option>
+        </select>
+
+        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition transform hover:scale-105">
+            Search
+        </button>
+        <a href="/artists/" class="text-red-500 hover:text-red-700 underline text-sm">Clear Filters</a>
+    </form>
+
+    <!-- Showing Search Terms -->
+    {% if request.GET.city or request.GET.style %}
+    <div class="text-center mb-8 text-gray-600">
+        Showing results
+        {% if request.GET.city %}
+            for city <span class="font-bold">{{ request.GET.city }}</span>
+        {% endif %}
+        {% if request.GET.style %}
+            {% if request.GET.city %} and {% endif %}
+            style <span class="font-bold">{{ request.GET.style|title }}</span>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Artist Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        {% for artist in artists %}
+            <div class="bg-white rounded-lg shadow hover:shadow-2xl transition transform hover:-translate-y-1 hover:scale-105 p-6 flex flex-col items-center">
+                {% if artist.profile_picture %}
+                    <img src="{{ artist.profile_picture.url }}" alt="Profile Picture" class="w-40 h-40 object-cover rounded-full mb-4 transition transform hover:scale-110">
+                {% endif %}
+                <h2 class="text-xl font-bold">{{ artist.user.username }}</h2>
+                <p class="text-gray-600">{{ artist.city }}, {{ artist.state }}</p>
+                <p class="text-sm text-gray-500 mt-2">{{ artist.get_style_display }}</p>
+                <a href="{% url 'artist_profile' artist.id %}" class="mt-4 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition transform hover:scale-105">
+                    View Profile
+                </a>
+            </div>
+        {% empty %}
+            <div class="col-span-3 text-center text-gray-600">
+                No artists found. Try adjusting your search.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="relative bg-cover bg-center h-screen" style="background-image: url('https://images.unsplash.com/photo-1589927986089-35812389fc3b');">
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="relative z-10 flex flex-col justify-center items-center h-full text-center text-white px-6">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">Find Your Perfect Tattoo Artist</h1>
+        <p class="text-lg md:text-2xl mb-8 animate-fade-in delay-200">Search by location and tattoo style. Your next masterpiece starts here.</p>
+        <a href="/artists/" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded text-lg transition transform hover:scale-110 animate-fade-in delay-400">
+            Browse Artists
+        </a>
+    </div>
+</div>
+{% endblock %}
